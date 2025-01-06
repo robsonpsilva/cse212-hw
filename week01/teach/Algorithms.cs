@@ -41,6 +41,7 @@ public static class Algorithms {
             count += 1;
 
         return count;
+        //O(n)
     }
 
     /// <summary>
@@ -55,7 +56,7 @@ public static class Algorithms {
         for (var j = 0; j < size; ++j)
             count += 1;
 
-        return count;
+        return count; //O(n^2)
     }
 
     /// <summary>
@@ -74,6 +75,6 @@ public static class Algorithms {
             count += 1;
         }
 
-        return count;
+        return count; //O(log n)
     }
 }
