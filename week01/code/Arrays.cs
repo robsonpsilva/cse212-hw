@@ -13,8 +13,26 @@ public static class Arrays
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
         //
+        /*
+            Steps to find the multiples:
+                    1- Create a list variable to store the multiples, 
+                    a choice made given the variable nature of the list size, 
+                    since the number of multiples depends directly on the value of the length variable.
 
-        return []; // replace this return statement with your own
+                    2- Make a loop where from 1 to length:
+                        a) Calculate the multiple of length by number.
+                        b) Include this value in the list.
+                    3- Convert the list to an array, since this is the function's return format.
+                    4- Return the array in the function's return.
+
+        */
+        List<double> multiples = new List<double>();
+        for (double i = 1; i<= length; i++)
+        {
+            multiples.Add(i*length);
+        }
+
+        return multiples.ToArray(); // replace this return statement with your own
     }
 
     /// <summary>
