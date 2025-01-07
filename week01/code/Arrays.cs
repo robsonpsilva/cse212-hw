@@ -1,3 +1,5 @@
+using System.Globalization;
+
 public static class Arrays
 {
     /// <summary>
@@ -29,7 +31,7 @@ public static class Arrays
         List<double> multiples = new List<double>();
         for (double i = 1; i<= length; i++)
         {
-            multiples.Add(i*length);
+            multiples.Add(i*number);
         }
 
         return multiples.ToArray(); // replace this return statement with your own
@@ -48,5 +50,23 @@ public static class Arrays
         // Remember: Using comments in your program, write down your process for solving this problem
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
+        /*
+            Steps to rotate:
+
+                1- Create a for loop that will iterate the number of times defined in the amount variable.
+                2- Inside the for loop.
+                    a) Get the last element of the list and save it in an auxiliary variable.
+                    b) Remove the last element of the list.
+                    c) Insert the contents of the auxiliary variable (Last element of the list) 
+                    at the beginning of the list, causing a right rotation.
+        */
+
+        for (int i = 1; i<= amount; i++)
+        {
+            int aux = data[data.Count - 1];
+            data.RemoveAt(data.Count - 1);
+            data.Insert(0,aux);
+        }
+
     }
 }
