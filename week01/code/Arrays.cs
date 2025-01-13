@@ -60,7 +60,7 @@ public static class Arrays
                 1- Create a for loop that will iterate the number of times defined in the amount variable.
                     a) Here an example: for (int i = 1; i<= amount; i++)
                     b)At each iteration the index will be increased by one unit until it reaches the value 
-                    defined in amount.
+                        defined in amount.
                 2- Inside the for loop.
                     a) Get the last element of the list and save it in an auxiliary variable.
                     b) Remove the last element of the list.
