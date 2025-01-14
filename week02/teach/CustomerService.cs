@@ -25,6 +25,7 @@ public class CustomerService {
         }
         else
         {
+            Console.WriteLine("Test 1 fail");
             Trace.Assert(customerService._maxSize == 10, "Default size must be 10.");
         }
         
@@ -33,24 +34,95 @@ public class CustomerService {
 
         // Test 2
         // Scenario: Enqueuing a new customer into the queue.
-        // Expected Result: 
+        // Expected Result:  The customer will be correctly put in thE queue
         Console.WriteLine("Test 2");
         
+        customerService = new CustomerService(3);
+
+        var input = "Robson Paulo da Silva\nId001\nNotebook batery problem\n";
+        var stringReader = new StringReader(input);
+        Console.SetIn(stringReader);
         customerService.AddNewCustomer();
-        Console.WriteLine(customerService.ToString());
-        // Defect(s) Found: 
-        if (customerService.ToString() == "[size=1 max_size=10 => Robson Paulo da Silva (Id001)  : Notebook batery problem]")
+        // Defect(s) Found: Let's include a single client, 
+        //if we don't find this same client at the beginning 
+        //of the queue when executing dequeuing this will be an error.
+        if (customerService.ToString() == "[size=1 max_size=3 => Robson Paulo da Silva (Id001)  : Notebook batery problem]")
         {
-            Console.WriteLine("Pass test 1");
+            Console.WriteLine("Pass test 2");
         }
         else
         {
+            Console.WriteLine("Test 2 fail");
             Trace.Assert(customerService.ToString() == "[size=1 max_size=10 => Robson Paulo da Silva (Id001)  : Notebook batery problem]");
         }
         
         Console.WriteLine("=================");
-
+        Console.WriteLine("Test 3");
         // Add more Test Cases As Needed Below
+        //I put a client in these tests before
+        //Test 3
+        //Scenario: Queue full
+        // Expected Result: If the queue is full when trying to add a customer, then an error message will be displayed.
+        //Defect:If the queue is full but no error message is found.
+        
+        customerService = new CustomerService(3);
+        for (int i = 0; i<4; i++) //Try to put 4 customers in a queue with size 3
+        {
+            var inp = $"Name {i}\nIdt00{i}\nProblem{i}\n";
+            var strReader = new StringReader(inp);
+            Console.SetIn(strReader);
+
+            if (i == 3)
+            {
+                Console.SetIn(Console.In);   
+            }
+            customerService.AddNewCustomer();
+        }
+        if (customerService._queue.Count() == 3)
+        {
+            Console.WriteLine("Pass test 3");
+        }
+        else
+        {
+            Console.WriteLine("Test 3 fail");
+            Trace.Assert(customerService._queue.Count() > 3, "Error, the application accepted to include more clients than the amount supported by the service.");
+        }
+
+        Console.WriteLine("=================");
+        Console.WriteLine("Test 4");
+        //Test 4
+        //Scenario: Dequeuing a item correctly
+        // Expected Result: If I queue two itens I must dequeue in the correct order.
+        //Defect:If the dequeue fail it is a error.
+
+        customerService = new CustomerService(2);
+
+        input = "Robson\nId001\nNotebook batery problem\n";
+        stringReader = new StringReader(input);
+        Console.SetIn(stringReader);
+        
+        customerService.AddNewCustomer();
+
+        input = "Paulo\nId002\nMobile problem\n";
+        stringReader = new StringReader(input);
+        Console.SetIn(stringReader);
+
+        customerService.AddNewCustomer();
+        customerService.ServeCustomer();
+
+
+        Console.WriteLine(customerService.ToString().Trim());
+        if (customerService.ToString().Trim() == 
+            "[size=1 max_size=2 => Paulo (Id002)  : Mobile problem]")
+        {
+            Console.WriteLine("Pass test 4");
+        }
+        else
+        {
+            Console.WriteLine("Test 4 fail");
+            Trace.Assert(false, "Error dequeuing clients.");
+        }
+
     }
 
     private readonly List<Customer> _queue = new();
@@ -89,7 +161,7 @@ public class CustomerService {
     /// </summary>
     private void AddNewCustomer() {
         // Verify there is room in the service queue
-        if (_queue.Count > _maxSize) {
+        if (_queue.Count + 1 > _maxSize) {
             Console.WriteLine("Maximum Number of Customers in Queue.");
             return;
         }
