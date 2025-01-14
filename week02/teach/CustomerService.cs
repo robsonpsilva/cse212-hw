@@ -123,6 +123,15 @@ public class CustomerService {
             Trace.Assert(false, "Error dequeuing clients.");
         }
 
+        Console.WriteLine("=================");
+        Console.WriteLine("Test 5");
+        //Test 5
+        //Scenario: Dequeuing a item with queue empty
+        // Expected Result: An error message will be displayed
+        //Defect:No message if queue is empty.
+        customerService = new CustomerService(2);
+        customerService.ServeCustomer();
+
     }
 
     private readonly List<Customer> _queue = new();
@@ -182,9 +191,16 @@ public class CustomerService {
     /// Dequeue the next customer and display the information.
     /// </summary>
     private void ServeCustomer() {
-        _queue.RemoveAt(0);
-        var customer = _queue[0];
-        Console.WriteLine(customer);
+        if (_queue.Count()>=1)
+        {
+            _queue.RemoveAt(0);
+            var customer = _queue[0];
+            Console.WriteLine(customer);
+        }
+        else
+        {
+            Console.WriteLine("Queue empty");
+        }
     }
 
     /// <summary>
