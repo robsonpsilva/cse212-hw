@@ -1,4 +1,6 @@
-﻿/// <summary>
+﻿using System.Diagnostics;
+
+/// <summary>
 /// Maintain a Customer Service Queue.  Allows new customers to be 
 /// added and allows customers to be serviced.
 /// </summary>
@@ -11,21 +13,41 @@ public class CustomerService {
         // Test Cases
 
         // Test 1
-        // Scenario: 
-        // Expected Result: 
+        // Scenario: The user will specify an invalid size.
+        // Expected Result: The software will use the default size of 10.
         Console.WriteLine("Test 1");
 
         // Defect(s) Found: 
+        var customerService = new CustomerService(-1); //Inputing an invalid size.
+        if (customerService._maxSize == 10)
+        {
+            Console.WriteLine("Pass test 1");
+        }
+        else
+        {
+            Trace.Assert(customerService._maxSize == 10, "Default size must be 10.");
+        }
+        
 
         Console.WriteLine("=================");
 
         // Test 2
-        // Scenario: 
+        // Scenario: Enqueuing a new customer into the queue.
         // Expected Result: 
         Console.WriteLine("Test 2");
-
+        
+        customerService.AddNewCustomer();
+        Console.WriteLine(customerService.ToString());
         // Defect(s) Found: 
-
+        if (customerService.ToString() == "[size=1 max_size=10 => Robson Paulo da Silva (Id001)  : Notebook batery problem]")
+        {
+            Console.WriteLine("Pass test 1");
+        }
+        else
+        {
+            Trace.Assert(customerService.ToString() == "[size=1 max_size=10 => Robson Paulo da Silva (Id001)  : Notebook batery problem]");
+        }
+        
         Console.WriteLine("=================");
 
         // Add more Test Cases As Needed Below
