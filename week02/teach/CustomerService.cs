@@ -26,6 +26,8 @@ public class CustomerService {
         else
         {
             Console.WriteLine("Test 1 fail");
+
+            
             Trace.Assert(customerService._maxSize == 10, "Default size must be 10.");
         }
         
