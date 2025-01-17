@@ -45,6 +45,26 @@ public class TakingTurnsQueue
                 person.Turns -= 1;
                 _people.Enqueue(person);
             }
+            else //Fixed code, the scenario where a person will be enqueue forever was not coded.
+            {
+                /*
+                    The requirement has a somewhat ambiguous definition regarding the criteria for
+                    a person to be placed in the queue forever, that is, the value of the Turns attribute 
+                    must be zero. However, for those with Turns greater than zero, the code needs to decrement 
+                    its value each round to stop placing the person back in the queue. This action, performed directly on the Turns variable, 
+                    will eventually result in it assuming the value zero. 
+                    Which, according to the requirement, makes it eternal and the person will be placed in the queue indefinitely.
+
+                    In order not to change the requirements, I created an additional attribute that stores the original number of Turns 
+                    and never decrements, so we can validate whether it was zero at the beginning, and if so, correctly keep that person 
+                    in the queue forever.
+                */
+                if (person.ForeverTurns <= 0)
+                {
+                    _people.Enqueue(person);
+                }                
+                 
+            }
 
             return person;
         }
