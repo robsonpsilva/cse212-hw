@@ -1,3 +1,5 @@
+using System.Xml.XPath;
+
 public class Translator
 {
     public static void Run()
@@ -24,7 +26,7 @@ public class Translator
     /// <returns>fixed array of divisors</returns>
     public void AddWord(string fromWord, string toWord)
     {
-        // ADD YOUR CODE HERE
+        _words[fromWord] = toWord;
     }
 
     /// <summary>
@@ -35,6 +37,11 @@ public class Translator
     public string Translate(string fromWord)
     {
         // ADD YOUR CODE HERE
-        return "";
+        string result = "";
+        if(_words.ContainsKey(fromWord)==true)
+        {
+            result = _words[fromWord];
+        }
+        return result;
     }
 }
