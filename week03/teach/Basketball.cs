@@ -39,8 +39,12 @@ public class Basketball
 
         //Console.WriteLine($"Players: {{{string.Join(", ", players)}}}");
 
-        var dictOrdained = players.OrderByDescending(pair => pair.Value).Take(10).ToArray();
-
+        var playerOrdained = players.OrderByDescending(pair => pair.Value).Take(10).ToArray();
+        foreach(var player in playerOrdained)
+        {
+            Console.WriteLine($"|{player.Key}:{player.Value}|");
+        }
+        
        
     }
 }
