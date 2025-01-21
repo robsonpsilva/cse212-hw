@@ -29,5 +29,27 @@
     /// <param name="numbers">array of integers</param>
     private static void DisplaySumPairs(int[] numbers) {
         // TODO Problem 2 - This should print pairs of numbers in the given array
+        HashSet<int> numberSet = new HashSet<int>(numbers);
+        foreach(int i in numbers)
+        {
+            int k = 10 - i;
+            if (numberSet.Contains(k))
+            {
+                /*
+                    //If this test is true, it is because the symmetric pair is in the hashset 
+                    and I have already found it, as I am traversing the array from beginning to 
+                    end and, if I have already found it, to avoid duplicates, I ignore this occurrence.
+
+                    Consider I found the pair (1,9), so I don't need to find the pair (9,1)
+                */
+                if (i < k) 
+                {
+                    Console.WriteLine($"{k} {i}");
+                }
+            }
+
+        }
+
+
     }
 }
