@@ -1,5 +1,6 @@
+using System.Diagnostics;
 using System.Text.Json;
-
+using Newtonsoft.Json.Linq;
 public static class SetsAndMaps
 {
     /// <summary>
@@ -105,17 +106,38 @@ public static class SetsAndMaps
         }
         else
         {
-            var w = word1.ToCharArray();
-            Array.Sort(w);
-            string w1 = new string(w);
-            word.Add(w1,1);
 
-            w = word2.ToCharArray();
-            Array.Sort(w);
-            string w2 = new string(w);
-            return word.ContainsKey(w2);
+            var run1 = Task.Run(() => IndividualCharCount(word1));
+            var run2 = Task.Run(() => IndividualCharCount(word2));
+
+            // Aguardar a conclusão das tarefas
+            Task.WaitAll(run1, run2);
+
+            var c1 = run1.Result;
+            var c2 = run2.Result;
+
+            foreach (var key in c1)
+            {
+                if (!c2.ContainsKey(key.Key) || c2[key.Key] != key.Value)
+                    return false;
+            }
+
+            return true;
+ 
         }
         
+    }
+    static Dictionary<char, int> IndividualCharCount(string s)
+    {
+        var charCount = new Dictionary<char, int>();
+        foreach (char c in s)
+        {
+            if (charCount.ContainsKey(c))
+                charCount[c]++;
+            else
+                charCount[c] = 1;
+        }
+        return charCount;
     }
 
     /// <summary>
@@ -141,12 +163,13 @@ public static class SetsAndMaps
         using var reader = new StreamReader(jsonStream);
         var json = reader.ReadToEnd();
         var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-
+      
         var featureCollection = JsonSerializer.Deserialize<FeatureCollection>(json, options);
         
+        List<string> earthQuakues = new List<string>();
         foreach (var feature in featureCollection.Features)
         {
-            Console.WriteLine($"Tipo: {feature.Type}, Lugar: {feature.Properties.Place}, Magnitude: {feature.Properties.Mag}");
+            earthQuakues.Add($"{feature.Properties.Place} - Mag {feature.Properties.Mag}");
         }
 
         // TODO Problem 5:
@@ -154,6 +177,6 @@ public static class SetsAndMaps
         // on those classes so that the call to Deserialize above works properly.
         // 2. Add code below to create a string out each place a earthquake has happened today and its magitude.
         // 3. Return an array of these string descriptions.
-        return [];
+        return earthQuakues.ToArray();
     }
 }
