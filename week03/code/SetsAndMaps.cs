@@ -22,7 +22,28 @@ public static class SetsAndMaps
     public static string[] FindPairs(string[] words)
     {
         // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+        List<string> result = new List<string>();
+        HashSet<string> set = new HashSet<string>(words);
+      
+        foreach(var w in words)
+        {
+            if (set.Contains(w))
+            {
+                string rev = new string(w.Reverse().ToArray());
+                if(set.Contains(rev))
+                {
+                    if (w != rev)
+                    {
+                       if(!result.Contains($"{rev} & {w}"))
+                       {
+                            result.Add($"{w} & {rev}");
+                       }
+                    }  
+                }
+            }
+        }
+       
+        return  result.ToArray();
     }
 
     /// <summary>
@@ -43,8 +64,16 @@ public static class SetsAndMaps
         {
             var fields = line.Split(",");
             // TODO Problem 2 - ADD YOUR CODE HERE
+            if (degrees.ContainsKey(fields[3]))
+            {
+                degrees[fields[3]] += 1;
+            }
+            else
+            {
+                degrees[fields[3]] = 1;
+            }
         }
-
+        
         return degrees;
     }
 
@@ -67,7 +96,26 @@ public static class SetsAndMaps
     public static bool IsAnagram(string word1, string word2)
     {
         // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+        word1 = word1.ToLower().Trim().Replace(" ", "");
+        word2 = word2.ToLower().Trim().Replace(" ", "");
+        var word = new Dictionary<string, int>();
+        if(word1.Length != word2.Length)
+        {
+            return false;
+        }
+        else
+        {
+            var w = word1.ToCharArray();
+            Array.Sort(w);
+            string w1 = new string(w);
+            word.Add(w1,1);
+
+            w = word2.ToCharArray();
+            Array.Sort(w);
+            string w2 = new string(w);
+            return word.ContainsKey(w2);
+        }
+        
     }
 
     /// <summary>
@@ -95,6 +143,11 @@ public static class SetsAndMaps
         var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
 
         var featureCollection = JsonSerializer.Deserialize<FeatureCollection>(json, options);
+        
+        foreach (var feature in featureCollection.Features)
+        {
+            Console.WriteLine($"Tipo: {feature.Type}, Lugar: {feature.Properties.Place}, Magnitude: {feature.Properties.Mag}");
+        }
 
         // TODO Problem 5:
         // 1. Add code in FeatureCollection.cs to describe the JSON using classes and properties 
