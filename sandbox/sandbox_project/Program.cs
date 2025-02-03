@@ -1,4 +1,5 @@
 using System;
+using System.Xml.XPath;
 
 public class Program
 {
@@ -9,5 +10,8 @@ public class Program
         // one of your projects.
 
         Console.WriteLine("Hello Sandbox World!");
+        Sum sum = new Sum();
+        int result = sum.CalculateSum(100, 1);
+        Console.WriteLine(result);
     }
 }
