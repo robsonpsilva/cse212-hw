@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Diagnostics;
 
 public static class Recursion
 {
@@ -196,16 +197,46 @@ public static class Recursion
             }
             else
             {
+               //validating and adjusting result.
+               List<List<(int, int)>> res = FindSequences(currPath, (0,0), (2,2));
+               foreach(var i in res)
+               {   
+                    foreach (t in )
+
+               }
+               Debug.WriteLine(res);
                results.Add(currPath.AsString());
-               currPath = null;
+               currPath.Clear();
             }
             
 
         }
             
-
-        
-
         // results.Add(currPath.AsString()); // Use this to add your path to the results array keeping track of complete maze solutions when you find the solution.
+    }
+     static List<List<(int, int)>> FindSequences(List<(int, int)> points, (int, int) start, (int, int) end)
+    {
+        List<List<(int, int)>> sequences = new List<List<(int, int)>>();
+        List<(int, int)> currentSequence = null;
+
+        foreach (var p in points)
+        {
+            if (p == start)
+            {
+                currentSequence= new List<(int, int)>();
+                currentSequence.Add(p);
+            }
+            else if (currentSequence != null)
+            {
+                currentSequence.Add(p);
+                if (p == end)
+                {
+                    sequences.Add(currentSequence);
+                    currentSequence = null;
+                }
+            }
+        }
+
+        return sequences;
     }
 }
