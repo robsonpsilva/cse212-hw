@@ -175,43 +175,60 @@ public static class Recursion
     {
         // If this is the first time running the function, then we need
         // to initialize the currPath list.
-        if (currPath == null) {
-            currPath = new List<ValueTuple<int, int>>();
-        }
         
         // currPath.Add((1,2)); // Use this syntax to add to the current path
 
         // TODO Start Problem 5
         // ADD CODE HERE
-        
        
-        if(maze.IsValidMove(currPath, x, y))
-        {  
-            currPath.Add((x,y));
-            if (!maze.IsEnd(x , y))
-            {
-                SolveMaze(results, maze, x, y + 1, currPath);
-                SolveMaze(results, maze, x, y - 1, currPath);
-                SolveMaze(results, maze, x + 1 , y, currPath);
-                SolveMaze(results, maze, x - 1 , y, currPath);
-            }
-            else
-            {
-               //validating and adjusting result.
-               List<List<(int, int)>> res = FindSequences(currPath, (0,0), (2,2));
-               foreach(var i in res)
-               {   
-                    foreach (t in )
-
-               }
-               Debug.WriteLine(res);
-               results.Add(currPath.AsString());
-               currPath.Clear();
-            }
-            
-
+        if (currPath == null) {
+            currPath = new List<ValueTuple<int, int>>();
         }
-            
+        
+        if (maze.IsValidMove(currPath, x, y))
+        {
+                
+            currPath.Add((x,y));
+            if (maze.IsEnd(x,y))
+            {
+                results.Add(currPath.AsString());
+                return;
+            }
+                       
+            SolveMaze(results, maze, x, y + 1, currPath);
+            SolveMaze(results, maze, x, y - 1, currPath);
+            SolveMaze(results, maze, x + 1 , y, currPath);
+            SolveMaze(results, maze, x - 1 , y, currPath);
+        }
+        else
+        {
+            if(((x == maze.Width - 1 && y == maze.Height-1)) || (x == 0 && y == 0))
+            {
+                currPath.Add((x,y));
+                List<(int, int)> nCurrentPath = currPath.Select(item => (item.Item1, item.Item2)).ToList();
+                List<List<(int, int)>> temp = FindSequences(nCurrentPath, (0,0), (2,2));
+                foreach (var v in temp)
+                {
+                    
+                    string path = "";
+                    foreach (var p in v)
+                    {
+                        path = String.Join(", ", v.Select(tuple => $"({tuple.Item1}, {tuple.Item2})"));
+                    }
+                    if (!results.Contains(path))
+                    {
+                        results.Add(path);
+                    }
+                }
+                /*
+                string result = String.Join(" | ", temp.Select(innerList => 
+                String.Join(", ", innerList.Select(tuple => $"({tuple.Item1}, {tuple.Item2})"))));
+                
+                if*/
+                
+            }
+        }
+
         // results.Add(currPath.AsString()); // Use this to add your path to the results array keeping track of complete maze solutions when you find the solution.
     }
      static List<List<(int, int)>> FindSequences(List<(int, int)> points, (int, int) start, (int, int) end)
