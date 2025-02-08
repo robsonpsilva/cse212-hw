@@ -189,9 +189,9 @@ public static class Recursion
         {
                 
             currPath.Add((x,y));
+            Debug.WriteLine($"({x}, {y})");
             if (maze.IsEnd(x,y))
             {
-                results.Add(currPath.AsString());
                 return;
             }
                        
@@ -202,22 +202,18 @@ public static class Recursion
         }
         else
         {
-            if(((x == maze.Width - 1 && y == maze.Height-1)) || (x == 0 && y == 0))
+            if((x == maze.Width - 1 && y == maze.Height-1) || (x == 0 && y == 0))
             {
                 currPath.Add((x,y));
+                Debug.WriteLine($"({x}, {y})");
                 List<(int, int)> nCurrentPath = currPath.Select(item => (item.Item1, item.Item2)).ToList();
-                List<List<(int, int)>> temp = FindSequences(nCurrentPath, (0,0), (2,2));
+                List<List<(int, int)>> temp = FindSequences(nCurrentPath, (0,0), (maze.Width - 1, maze.Height-1));
                 foreach (var v in temp)
                 {
                     
-                    string path = "";
-                    foreach (var p in v)
+                    if (!results.Contains(v.AsString()))
                     {
-                        path = String.Join(", ", v.Select(tuple => $"({tuple.Item1}, {tuple.Item2})"));
-                    }
-                    if (!results.Contains(path))
-                    {
-                        results.Add(path);
+                        results.Add(v.AsString());
                     }
                 }
                 /*
