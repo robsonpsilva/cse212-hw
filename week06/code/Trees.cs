@@ -48,6 +48,68 @@ public static class Trees
     /// <param name="bst">the BinarySearchTree in which to insert the values</param>
     private static void InsertMiddle(int[] sortedNumbers, int first, int last, BinarySearchTree bst)
     {
+       
         // TODO Start Problem 5
+
+        if (sortedNumbers.Length == 0)
+        {
+            return;
+        }
+        else
+        {
+            int mid = (last - first) / 2;
+           
+            bst.Insert(sortedNumbers[first + mid]);
+            if (mid == 0)
+            {
+                if (last-first == 1)
+                {
+                    InsertMiddle(sortedNumbers, first + mid + 1, last, bst);
+                }
+                return;
+            }
+            InsertMiddle(sortedNumbers, first, first + mid, bst);
+            InsertMiddle(sortedNumbers, first + mid + 1, last, bst);
+        }
+        
+        
+
+        /*
+        if (sortedNumbers.Length > 1 )
+        {
+            int mid = (last - first) / 2;
+            bst.Insert(sortedNumbers[mid]);
+            (int[] firstHalf, int[] secondHalf) = SplitArray(sortedNumbers);
+            if (firstHalf.Length > 0)
+            {
+                InsertMiddle(firstHalf, 0, firstHalf.Length-1, bst);
+            }
+            if (secondHalf.Length > 0)
+            {
+                InsertMiddle(secondHalf, 0, secondHalf.Length-1, bst);
+            } 
+        }
+        else
+        {
+            bst.Insert(sortedNumbers[0]);
+        }
+        
+        */
     }
+
+
+    static (int[], int[]) SplitArray(int[] array)
+    {
+        int mid = array.Length / 2;
+        int[] firstHalf = new int[mid];
+        int[] secondHalf = new int[array.Length - mid];
+
+        Array.Copy(array, 0, firstHalf, 0, mid);
+        Array.Copy(array, mid, secondHalf, 0, array.Length - mid);
+
+        return (firstHalf, secondHalf);
+    }
+
+
+    
 }

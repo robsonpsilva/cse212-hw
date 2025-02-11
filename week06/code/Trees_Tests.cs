@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 // DO NOT MODIFY THIS FILE
@@ -112,6 +113,9 @@ public class CreateTreeFromSortedListTests
     public void CreateTreeFromSortedList_128Nodes()
     {
         var tree = Trees.CreateTreeFromSortedList(Enumerable.Range(0, 128).ToArray()); // 2^7 nodes
+        Debug.WriteLine(tree.ToString());
+        Debug.WriteLine("---------------------------------");
+        Debug.WriteLine("<Bst>{" + string.Join(", ", Enumerable.Range(0, 128)) + "}");
         Assert.AreEqual("<Bst>{" + string.Join(", ", Enumerable.Range(0, 128)) + "}", tree.ToString());
         Assert.AreEqual(8, tree.GetHeight()); // Any higher and its not balanced.
     }
